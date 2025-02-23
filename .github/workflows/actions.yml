@@ -17,16 +17,23 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '21'
+          java-version: '17'
 
       - name: Compilar y ejecutar tests
         run: |
           mvn test
 
+      - name: Añadir etiqueta de automerge
+        if: success()
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          labels: automerge
+
       - name: Fusionar PR si los tests pasan
         if: success()
         uses: pascalgn/automerge-action@v0.15.4
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           mergeMethod: squash
