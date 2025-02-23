@@ -20,8 +20,7 @@ jobs:
           java-version: '21'
 
       - name: Compilar y ejecutar tests
-        run: |
-          mvn test
+        run: mvn test
 
       - name: Añadir etiqueta de automerge
         if: success()
@@ -32,8 +31,8 @@ jobs:
 
       - name: Fusionar PR si los tests pasan
         if: success()
-        uses: pascalgn/automerge-action@v0.15.4
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        uses: peter-evans/enable-pull-request-automerge@v2
         with:
-          mergeMethod: squash
+          token: ${{ secrets.TOKEN }}
+          pull-request-number: ${{ github.event.pull_request.number }}
+          merge-method: squash
