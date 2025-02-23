@@ -1,0 +1,32 @@
+name: Run Tests and Auto Merge
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-and-merge:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Compilar y ejecutar tests
+        run: |
+          mvn test
+
+      - name: Fusionar PR si los tests pasan
+        if: success()
+        uses: pascalgn/automerge-action@v0.15.4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          mergeMethod: squash
