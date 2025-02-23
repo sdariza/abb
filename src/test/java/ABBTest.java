@@ -16,5 +16,7 @@ public class ABBTest {
         assertEquals("The node 40 should not be in the tree", false, tree.searchABB(tree.getRoot(), 40));
         assertEquals("The node 5 should be in the tree", true, tree.searchABB(tree.getRoot(), 5));
         assertEquals("The node 15 should be in the tree", true, tree.searchABB(tree.getRoot(), 15));
+        assertEquals("The node 10 should be in the tree", true, tree.searchABB(tree.getRoot(), 10));
+        assertEquals("The node 20 should not be in the tree", false, tree.searchABB(tree.getRoot(), 20));
     }
 }
