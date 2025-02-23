@@ -1,6 +1,5 @@
 package com.abbapp;
 
-
 public class ABB {
     private Node root;
 
@@ -59,4 +58,35 @@ public class ABB {
         }
     }
 
+    public int findSmallestNode(Node root) {
+        if (root.left == null) {
+            return root.data;
+        }
+        return findSmallestNode(root.left);
+    }
+
+    public Node deleteNodeR(Node node, int x) {
+        if (node == null)
+            return null;
+        if (node.data == x) {
+            if (node.right == null)
+                return node.left;
+            if (node.left == null)
+                return node.right;
+            int smallestValue = findSmallestNode(node.right);
+            node.data = smallestValue;
+            node.right = deleteNodeR(node.right, smallestValue);
+        }
+        if (x < node.data) {
+            node.left = deleteNodeR(node.left, x);
+        }
+        if (x > node.data) {
+            node.right = deleteNodeR(node.right, x);
+        }
+        return node;
+    }
+
+    public void deleteNode(int x) {
+        root = deleteNodeR(root, x);
+    }
 }
