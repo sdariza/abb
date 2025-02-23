@@ -23,6 +23,13 @@ jobs:
         run: |
           mvn test
 
+      - name: Añadir etiqueta de automerge
+        if: success()
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          github_token: ${{ secrets.TOKEN }}
+          labels: automerge
+
       - name: Fusionar PR si los tests pasan
         if: success()
         uses: pascalgn/automerge-action@v0.15.4
